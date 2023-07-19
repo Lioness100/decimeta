@@ -1,3 +1,5 @@
+![image](https://github.com/Lioness100/decimeta/assets/65814829/0d15b868-1ea9-49d7-8f75-3adecb014474)
+
 # Decimeta
 
 Decimeta is a web application that helps you find the correct Dewey Decimal Classification (DDC) number for various topics and subjects using AI.
