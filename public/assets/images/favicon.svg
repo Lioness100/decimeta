@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="1000" height="1000"><rect width="1000" height="1000" rx="200" ry="200" fill="#ffffff"></rect><g transform="matrix(33.333333333333336,0,0,33.333333333333336,100,142.03332721441984)"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="24" height="24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2" y="3" width="20" height="18" rx="2" ry="2"></rect>
+    <path d="M4 3v18"></path>
+    <path d="M5 3v18"></path>
+    <text x="14" y="17.5" font-size="16px" text-anchor="middle" svgjs:data="{&quot;leading&quot;:&quot;1.3&quot;}">D</text>
+</svg></svg></g></svg>
