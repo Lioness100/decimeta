@@ -24,6 +24,12 @@ body,
 	width: 100%;
 }
 
+.match-percentage {
+	font-size: 14px;
+	color: #888; /* Choose a color that complements your design */
+	margin-left: 10px; /* Adjust the spacing between the result text and match percentage */
+}
+
 .container {
 	display: flex;
 	flex-direction: column;
@@ -71,12 +77,6 @@ input#search-bar {
 	background-color: #ffedbb; /* Update with your desired color */
 }
 
-#retry-button {
-	background-color: rgba(255, 255, 255, 0.6);
-	cursor: pointer;
-	border: none;
-}
-
 .button-text {
 	position: relative;
 	margin-top: 20px;
@@ -100,19 +100,14 @@ input#search-bar {
 	margin: 20px 0;
 }
 
-#context {
-	font-size: 16px;
+.result a {
 	color: #333;
-	margin-bottom: 20px;
+	text-decoration: none;
 }
 
 .breadcrumb {
 	position: relative;
 	cursor: pointer;
-}
-
-.breadcrumb span {
-	border-bottom: 1px dotted black;
 }
 
 .breadcrumb::after {
@@ -158,11 +153,6 @@ input#search-bar {
 
 	.result {
 		font-size: 24px;
-	}
-
-	#confidence,
-	#context {
-		font-size: 14px;
 	}
 
 	.breadcrumb::after {

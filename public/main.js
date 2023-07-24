@@ -1,26 +1,8 @@
-async function getDeweyDecimalData(prompt) {
-    const response = await fetch('/api/getDeweyData.js', {
-        method: 'POST',
-        body: JSON.stringify({ prompt }),
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
-
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    return await response.json();
-}
-
 // Grab reference to the necessary elements.
 const searchBar = document.querySelector('#search-bar');
 const searchForm = document.querySelector('#search-form');
 const resultContainer = document.querySelector('#result-container');
-const defaultTipArea = document.querySelector('.tip-area');
 const container = document.querySelector('.container');
-const retryButton = document.querySelector('#retry-button');
 
 // Get the query parameter from the URL
 const urlParams = new URLSearchParams(window.location.search);
@@ -34,12 +16,32 @@ if (queryParam) {
   }, 0);
 }
 
+function distanceToPercentage(score) {
+    // tolerance value for numerical precision
+    const epsilon = 1e-5;
+
+    // treat very small values as zero
+    if (Math.abs(score) < epsilon) {
+        score = 0;
+    }
+
+    if(score < 0 || score > 2) {
+        throw new Error("Invalid score. Score should be between 0 and 2.");
+    }
+
+    // Convert the distance to similarity. Lower distance means higher similarity
+    let similarity = 2 - score;
+
+    // Convert the similarity to percentage. Similarity of 2 is 100%, similarity of 0 is 0%.
+    let percentage = (similarity / 2) * 100;
+
+    return percentage.toFixed(2) + "%";
+}
+
 // Add event listener for 'search' event.
 searchForm.addEventListener('submit', async (event) => {
 	// Prevent form from being submitted normally.
 	event.preventDefault();
-
-	retryButton.classList.remove('hidden');
 
 	// Clear previous results.
 	resultContainer.innerHTML = '';
@@ -49,64 +51,52 @@ searchForm.addEventListener('submit', async (event) => {
 	loadingText.classList.add('result');
     loadingText.textContent = 'Loading...';
 
-	const generatedTipAreas = document.querySelectorAll('.tip-area.generated');
-	generatedTipAreas.forEach((tipArea) => {
-		tipArea.remove();
-	});
-
     resultContainer.appendChild(loadingText);
     searchBar.disabled = true;
 
 	try {
 	  	// Fetch Dewey Decimal data.
-	  	const data = await getDeweyDecimalData(searchBar.value);
-		console.log({ data });
+	  	const docs = await fetch(`/api/searchForMDS.js?search=${searchBar.value}`).then((res) => res.json());
+		console.log({ docs });
 
 		// Clear loading text.
 		resultContainer.innerHTML = '';
 
 		// Create a new <p> element for each result and append it to the result container.
-		data.results.forEach((result, idx) => {
+		docs.forEach(([doc, score], idx) => {
 			const resultText = document.createElement('p');
 			const breadcrumb = document.createElement('div');
 
 			breadcrumb.classList.add("breadcrumb");
-			breadcrumb.dataset.tooltip = result.breadcrumb;
+			breadcrumb.dataset.tooltip = doc.metadata.breadcrumb;
 
 			resultText.classList.add('result');
 			const resultTextContent = document.createElement('a');
-			resultTextContent.textContent = `${result.number} ${result.label}`;
+
+			if (window.matchMedia('(hover: hover)').matches) {
+				const number = doc.pageContent.split(' ')[0];
+				resultTextContent.href = `https://librarything.com/mds/${number}`;
+				resultTextContent.target = '_blank';
+			}
+
+			resultTextContent.textContent = doc.pageContent;
 			resultText.appendChild(resultTextContent);
 
 			if (idx === 0) {
 				resultText.classList.add('best-match');
 			}
 
+			// Create a new <span> element for displaying the match percentage.
+  			const matchPercentage = document.createElement('span');
+  			matchPercentage.classList.add('match-percentage');
+  			matchPercentage.textContent = distanceToPercentage(score);
+
+  			// Append the match percentage to the result element.
+  			resultText.appendChild(matchPercentage);
+
 			breadcrumb.appendChild(resultText);
 			resultContainer.appendChild(breadcrumb);
 		});
-
-		// Update the low confidence explanation if applicable.
-	  	if (data.context) {
-			const contextText = document.createElement('p');
-
-			contextText.id = 'context';
-			contextText.textContent = data.context;
-
-			resultContainer.appendChild(contextText);
-	  	}
-
-		if (data.tip) {
-			const tipArea = document.createElement('div');
-			tipArea.classList.add('tip-area', 'generated');
-
-			container.insertBefore(tipArea, defaultTipArea);
-
-			const tipText = document.createElement('p');
-
-			tipText.textContent = `💡 ${data.tip}`;
-			tipArea.appendChild(tipText);
-		}
 	} catch (error) {
 		// Handle any errors.
 		console.error(error);
@@ -128,8 +118,4 @@ searchBar.addEventListener('input', () => {
 	const newURL = new URL(window.location.href);
 	newURL.searchParams.set('q', searchBar.value);
 	history.replaceState(null, null, newURL.toString());
-  });
-
-retryButton.addEventListener('click', () => {
-	window.location.reload();
 });

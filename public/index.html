@@ -24,11 +24,10 @@
 			<div id="info-container">
 				<span id="tip-area" class="button-text">
 					<p
-						data-hover-text="💡 Hover over the results for more information!"
+						data-hover-text="💡 Hover over and/or click the results for more information!"
 						data-click-text="💡 Tap on the results for more information!"
 					></p>
 				</span>
-				<button id="retry-button" class="hidden button-text">🔄️ Retry</button>
 			</div>
 			<a href="https://github.com/Lioness100/decimeta" class="github-corner" aria-label="View source on GitHub">
 				<svg
@@ -53,6 +52,13 @@
 				</svg>
 			</a>
 		</div>
+		<script>
+			if ('serviceWorker' in navigator) {
+				window.addEventListener('load', () => {
+					navigator.serviceWorker.register('/service-worker.js');
+				});
+			}
+		</script>
 		<script src="main.js"></script>
 	</body>
 </html>

@@ -1,0 +1,27 @@
+{
+    "name": "decimeta",
+    "version": "1.0.0",
+    "description": "A website to easily find DDC numbers for topics using AI.",
+    "main": "public/index.html",
+    "type": "module",
+    "keywords": [
+        "dewey",
+        "decimal",
+        "classification",
+        "DDC",
+        "AI",
+        "library"
+    ],
+    "author": "Lioness100",
+    "license": "Apache-2.0",
+    "repository": "https://github.com/Lioness100/decimeta",
+    "homepage": "https://decimeta.info",
+    "dependencies": {
+        "d3-dsv": "2",
+        "hnswlib-node": "^2.0.0",
+        "langchain": "^0.0.114"
+    },
+    "devDependencies": {
+        "cheerio": "^1.0.0-rc.12"
+    }
+}

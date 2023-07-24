@@ -1,0 +1,7 @@
+{
+    "functions": {
+        "api/searchForMDS.js": {
+            "includeFiles": "data/**"
+        }
+    }
+}
