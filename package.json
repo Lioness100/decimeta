@@ -18,6 +18,7 @@
     "homepage": "https://decimeta.info",
     "dependencies": {
         "d3-dsv": "2",
+        "hnswlib-node": "^2.0.0",
         "langchain": "^0.0.114"
     },
     "devDependencies": {

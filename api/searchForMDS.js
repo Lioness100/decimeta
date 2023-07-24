@@ -1,7 +1,7 @@
-import { MemoryVectorStore } from "langchain/vectorstores/memory";
+import { HNSWLib } from "langchain/vectorstores/memory";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 
-const vectorStore = await MemoryVectorStore.load(
+const vectorStore = await HNSWLib.load(
 	'data',
 	new OpenAIEmbeddings({ openAIApiKey: process.env.OPENAI_API_KEY })
 );
