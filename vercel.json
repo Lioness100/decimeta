@@ -3,5 +3,11 @@
         "api/searchForMDS.js": {
             "includeFiles": "data/*.json"
         }
-    }
+    },
+    "crons": [
+        {
+            "path": "/api/cron.js",
+            "schedule": "0 0 * * 0"
+        }
+    ]
 }

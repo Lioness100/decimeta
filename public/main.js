@@ -89,7 +89,8 @@ searchForm.addEventListener('submit', async (event) => {
 			// Create a new <span> element for displaying the match percentage.
   			const matchPercentage = document.createElement('span');
   			matchPercentage.classList.add('match-percentage');
-  			matchPercentage.textContent = distanceToPercentage(score);
+			console.log(score);
+  			matchPercentage.textContent = `${(score * 100).toFixed(2)}%`;
 
   			// Append the match percentage to the result element.
   			resultText.appendChild(matchPercentage);
