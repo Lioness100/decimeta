@@ -1,4 +1,4 @@
-![image](https://github.com/Lioness100/decimeta/assets/65814829/0d15b868-1ea9-49d7-8f75-3adecb014474)
+![demo](https://github.com/Lioness100/decimeta/assets/65814829/92b65c8f-6d9d-4e1f-a90e-b57c56d55058)
 
 # Decimeta
 
@@ -8,6 +8,4 @@ Decimeta is a web application that helps you find the correct Dewey Decimal Clas
 
 - Enter a search prompt and get a list of Dewey Decimal Classification (DDC) numbers.
 - Results are ranked by relevance to the search query.
-- Each result includes the DDC number and a breadcrumb that provides context.
-- Additional context or explanations may be provided when multiple valid classifications exist.
-- Tips are displayed to guide users on improving their query for more accurate results.
+- Each result includes the DDC number, a breadcrumb that provides context, and a similarity percent.
