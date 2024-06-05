@@ -1,12 +1,8 @@
-import { PineconeClient } from "@pinecone-database/pinecone";
+import { Pinecone } from "@pinecone-database/pinecone";
 
-const client = new PineconeClient();
-await client.init({
-  apiKey: process.env.PINECONE_API_KEY,
-  environment: process.env.PINECONE_ENVIRONMENT,
-});
+const pc = new Pinecone();
 
 export default async (_, res) => {
-	await client.describeIndex({ indexName: process.env.PINECONE_INDEX });
+	await pc.describeIndex(process.env.PINECONE_INDEX);
 	return res.status(200).json(docs);
 };

@@ -1,16 +1,13 @@
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { PineconeClient } from "@pinecone-database/pinecone";
-import { PineconeStore } from "langchain/vectorstores/pinecone";
+import { OpenAIEmbeddings } from "@langchain/openai";
+import { Pinecone } from "@pinecone-database/pinecone";
+import { PineconeStore } from "@langchain/pinecone";
 
-const client = new PineconeClient();
-await client.init({
-  apiKey: process.env.PINECONE_API_KEY,
-  environment: process.env.PINECONE_ENVIRONMENT,
-});
-
+const client = new Pinecone();
 const pineconeIndex = client.Index(process.env.PINECONE_INDEX);
-const embeddings = new OpenAIEmbeddings({ openAIApiKey: process.env.OPENAI_API_KEY });
-const vectorStore = new PineconeStore(embeddings, { pineconeIndex });
+const vectorStore = await PineconeStore.fromExistingIndex(
+	new OpenAIEmbeddings(),
+	{ pineconeIndex }
+);
 
 export default async (req, res) => {
 	const docs = await vectorStore.similaritySearchWithScore(req.query.search, 5);
