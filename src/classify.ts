@@ -1,0 +1,78 @@
+import { OpenAI } from 'openai';
+import type { MDSNode } from './scraper';
+
+const tree: MDSNode[] = await Bun.file('mds.json').json();
+const client = new OpenAI();
+
+export async function queryOpenAI(query: string, options: string[], breadcrumb?: string, parent?: string) {
+	const input = `Which does the query belong to? Reply JUST the number${parent ? ` or "parent" to stop at ${parent}.` : '. If certain, you can also skip a step(s) and reply with the tens or ones place (e.g., 880 or 881)'}
+Query: "${query}"${
+		breadcrumb
+			? `
+Breadcrumb: ${breadcrumb}`
+			: ''
+	}
+Options: ${options.join(', ')}
+`;
+
+	const response = await client.responses.create({ model: 'gpt-4.1', input, temperature: 0 });
+	return response.output_text.split(' ')[0];
+}
+
+export interface ClassificationUpdate {
+	breadcrumb: string;
+	finished: boolean;
+	name: string;
+	number: string;
+}
+
+export async function* classify(
+	query: string,
+	nodes = tree,
+	parent?: MDSNode,
+	breadcrumb = ''
+): AsyncGenerator<ClassificationUpdate> {
+	const options = nodes.map((node) => `${node.number} ${node.name}`);
+	const number = await queryOpenAI(query, options, breadcrumb, parent && `${parent.number} ${parent.name}`);
+	const isParent = number.toLowerCase() === 'parent';
+	const matchedNode = isParent ? parent : nodes.find((node) => node.number === number);
+
+	if (!matchedNode) {
+		const root = `${number[0]}00`;
+		const rootNode = tree.find((node) => node.number === root);
+		if (rootNode) {
+			const tens = `${number.slice(0, 2)}0`;
+			const tensNode = rootNode.children.find((child) => child.number === tens);
+			if (tensNode) {
+				if (number === tens) {
+					breadcrumb = rootNode.name;
+					yield* classify(query, tensNode.children, rootNode, breadcrumb);
+					return;
+				}
+
+				const onesNode = tensNode.children.find((child) => child.number === number);
+				if (onesNode) {
+					breadcrumb = `${rootNode.name} > ${tensNode.name}`;
+					yield* classify(query, onesNode.children, tensNode, breadcrumb);
+					return;
+				}
+			}
+		}
+
+		throw new Error(`No matching node found for response: ${number}`);
+	}
+
+	const isFinished = isParent || matchedNode.children.length === 0;
+	yield { breadcrumb, name: matchedNode.name, number: matchedNode.number, finished: isFinished };
+
+	if (isFinished) {
+		return;
+	}
+
+	if (breadcrumb) {
+		breadcrumb += ' > ';
+	}
+
+	breadcrumb += matchedNode.name;
+	yield* classify(query, matchedNode.children, matchedNode, breadcrumb);
+}

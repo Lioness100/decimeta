@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decimeta</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+	<link rel="icon" type="image/png" href="favicon.png" />
+</head>
+<body>
+    <div class="decorative-books">
+        <div class="book"></div>
+        <div class="book"></div>
+        <div class="book"></div>
+        <div class="book"></div>
+        <div class="book"></div>
+        <div class="book"></div>
+        <div class="book"></div>
+        <div class="book"></div>
+        <div class="book"></div>
+        <div class="book"></div>
+        <div class="book"></div>
+    </div>
+
+    <div class="ddc-numbers">
+        <div class="ddc-number">032.54</div>
+        <div class="ddc-number">193.134</div>
+        <div class="ddc-number">206</div>
+        <div class="ddc-number">783.9</div>
+        <div class="ddc-number">430.1</div>
+        <div class="ddc-number">563.92</div>
+        <div class="ddc-number">626.3</div>
+        <div class="ddc-number">794</div>
+    </div>
+
+    <div class="container hero-mode">
+        <header>
+            <div class="header-content">
+                <div class="logo-title">
+                    <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+                        <defs>
+                            <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <rect width="32" height="32" rx="6" fill="url(#logo-grad)"/>
+                        <g fill="white">
+                            <path d="M8 10 L24 8 L24 12 L8 14 Z" opacity="0.9"/>
+                            <line x1="8" y1="10" x2="8" y2="14" stroke="white" stroke-width="0.5" opacity="0.7"/>
+                            <rect x="7" y="14" width="18" height="4" rx="0.5" opacity="0.95"/>
+                            <line x1="7" y1="16" x2="25" y2="16" stroke="#6366f1" stroke-width="0.5" opacity="0.5"/>
+                            <path d="M9 19 L25 18.5 L25 22.5 L9 23 Z"/>
+                            <line x1="9" y1="19" x2="9" y2="23" stroke="white" stroke-width="0.5" opacity="0.7"/>
+                        </g>
+                        <g fill="white" opacity="0.7">
+                            <circle cx="11" cy="26" r="0.8"/>
+                            <circle cx="16" cy="26" r="0.8"/>
+                            <circle cx="21" cy="26" r="0.8"/>
+                        </g>
+                    </svg>
+                    <h1>Decimeta</h1>
+                </div>
+                <div class="header-controls">
+                    <a href="https://github.com/Lioness100/decimeta" target="_blank" rel="noopener noreferrer" class="github-link" aria-label="View on GitHub">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="search-section hero-mode">
+                <form id="searchForm" class="search-form">
+                    <div class="search-input-wrapper">
+                        <input
+                            type="text"
+                            id="queryInput"
+                            placeholder="Enter your query (e.g., Harry Potter, The Great Gatsby)"
+                            autocomplete="off"
+                            maxlength="500"
+                            required
+                        />
+                        <button type="submit" id="searchButton" class="search-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                            <span>Classify</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="results-container" id="resultsContainer">
+                <div class="results-grid">
+                    <div class="result-card embeddings-card">
+                        <div class="card-header">
+                            <h2>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                                </svg>
+                                Embedding Search
+                                <button class="info-icon" aria-label="Info about embedding search">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                    </svg>
+                                    <span class="tooltip">Compares your query's semantic meaning to stored classifications. Faster but with limited contextual understanding.</span>
+                                </button>
+                            </h2>
+                            <div class="badge-group">
+                                <span class="time-badge" id="embeddingsTime" style="display: none;"></span>
+                                <span class="speed-badge fast">Fast</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div id="embeddingsLoader" class="loader-container">
+                                <div class="loader"></div>
+                                <p>Searching vector database...</p>
+                            </div>
+                            <div id="embeddingsResults" class="results-list"></div>
+                            <div id="embeddingsError" class="error-message"></div>
+                        </div>
+                    </div>
+
+                    <div class="result-card gpt-card">
+                        <div class="card-header">
+                            <h2>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                    <line x1="12" y1="19" x2="12" y2="22"></line>
+                                </svg>
+                                GPT Classification
+                                <button class="info-icon" aria-label="Info about GPT classification">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                    </svg>
+                                    <span class="tooltip">Uses AI to navigate each classification level step-by-step. Slower but with greater contextual understanding.</span>
+                                </button>
+                            </h2>
+                            <div class="badge-group">
+                                <span class="time-badge" id="gptTime" style="display: none;"></span>
+                                <span class="speed-badge accurate">Accurate</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div id="gptLoader" class="loader-container">
+                                <div class="loader"></div>
+                                <p>Analyzing with AI...</p>
+                            </div>
+                            <div id="gptResults" class="classification-result"></div>
+                            <div id="gptProgress" class="progress-container"></div>
+                            <div id="gptError" class="error-message"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Powered by OpenAI's gpt-4.1, OpenAI's text-embedding-3-small, and Pinecone's vector database.</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
