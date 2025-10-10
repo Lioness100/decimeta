@@ -882,6 +882,16 @@ footer {
 @media (max-width: 1200px) {
     .results-grid {
         grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .gpt-card {
+        order: 1;
+    }
+
+    .embeddings-card {
+        order: 2;
     }
 }
 
