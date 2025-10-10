@@ -1,6 +1,8 @@
 # decimeta
 
-https://github.com/user-attachments/assets/fa0eb134-64d7-46dd-bd47-a5cdbca4b2dc
+![Demo](https://i.imgur.com/LlQj4SA.gif)
+
+<sub>The colors look better IRL. My laptop screen records weirdly.</sub>
 
 Evaluates the Dewey Decimal System classification for a given query. Since the DDS
 is closed-source and copyrighted, this project scrapes [data](./mds.json) from the Melvil
