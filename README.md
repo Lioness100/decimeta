@@ -1,5 +1,7 @@
 # decimeta
 
+https://github.com/user-attachments/assets/fa0eb134-64d7-46dd-bd47-a5cdbca4b2dc
+
 Evaluates the Dewey Decimal System classification for a given query. Since the DDS
 is closed-source and copyrighted, this project scrapes [data](./mds.json) from the Melvil
 Decimal System, which is the next best things. [(Learn more)](https://www.librarything.com/mds).
