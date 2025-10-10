@@ -1,6 +1,6 @@
 # decimeta
 
-![Demo](https://i.imgur.com/LlQj4SA.gif)
+![Demo](https://i.imgur.com/RShz1gn.gif)
 
 <sub>The colors look better IRL. My laptop screen records weirdly.</sub>
 
