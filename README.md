@@ -2,8 +2,6 @@
 
 ![Demo](https://i.imgur.com/RShz1gn.gif)
 
-<sub>The colors look better IRL. My laptop screen records weirdly.</sub>
-
 Evaluates the Dewey Decimal System classification for a given query. Since the DDS
 is closed-source and copyrighted, this project scrapes [data](./mds.json) from the Melvil
 Decimal System, which is the next best things. [(Learn more)](https://www.librarything.com/mds).
