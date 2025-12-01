@@ -4,7 +4,7 @@ import { Pinecone } from '@pinecone-database/pinecone';
 import { PineconeStore } from '@langchain/pinecone';
 import type { MDSNode } from './scraper';
 
-process.env.PINECONE_INDEX ??= 'decimeta';
+process.env.PINECONE_INDEX ||= 'decimeta';
 
 const embeddings = new OpenAIEmbeddings({ model: 'text-embedding-3-small', verbose: import.meta.main });
 const pinecone = new Pinecone();
