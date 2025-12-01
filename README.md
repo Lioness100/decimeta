@@ -38,7 +38,7 @@ PINECONE_API_KEY=your_key_here
 
 ## Usage
 
-Scrape MDS data. This shouldn't be neccessary, as scraped data is already
+Scrape MDS data. This shouldn't be necessary, as scraped data is already
 provided in [mds.json](./mds.json). It's also slow and intensive for
 [LibraryThing](https://www.librarything.com/mds), so please use sparingly:
 
