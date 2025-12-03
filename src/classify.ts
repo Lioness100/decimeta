@@ -5,13 +5,8 @@ const tree: MDSNode[] = await Bun.file('mds.json').json();
 const client = new OpenAI();
 
 export async function queryOpenAI(query: string, options: string[], breadcrumb?: string, parent?: string) {
-	const input = `Which does the query belong to? Reply JUST the number${parent ? ` or "parent" to stop at ${parent}.` : '. If certain, you can also skip a step(s) and reply with the tens or ones place (e.g., 880 or 881)'}
-Query: "${query}"${
-		breadcrumb
-			? `
-Breadcrumb: ${breadcrumb}`
-			: ''
-	}
+	const input = `Which does the query belong to? Reply JUST the number${parent ? ` or "parent" to stop at ${parent}.` : ''}
+Query: "${query}"${breadcrumb ? `\nBreadcrumb: ${breadcrumb}` : ''}
 Options: ${options.join(', ')}
 `;
 
@@ -38,27 +33,6 @@ export async function* classify(
 	const matchedNode = isParent ? parent : nodes.find((node) => node.number === number);
 
 	if (!matchedNode) {
-		const root = `${number[0]}00`;
-		const rootNode = tree.find((node) => node.number === root);
-		if (rootNode) {
-			const tens = `${number.slice(0, 2)}0`;
-			const tensNode = rootNode.children.find((child) => child.number === tens);
-			if (tensNode) {
-				if (number === tens) {
-					breadcrumb = rootNode.name;
-					yield* classify(query, tensNode.children, rootNode, breadcrumb);
-					return;
-				}
-
-				const onesNode = tensNode.children.find((child) => child.number === number);
-				if (onesNode) {
-					breadcrumb = `${rootNode.name} > ${tensNode.name}`;
-					yield* classify(query, onesNode.children, tensNode, breadcrumb);
-					return;
-				}
-			}
-		}
-
 		throw new Error(`No matching node found for response: ${number}`);
 	}
 

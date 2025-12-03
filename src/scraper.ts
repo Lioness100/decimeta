@@ -7,8 +7,10 @@ export interface MDSNode {
 }
 
 const nodeCache = new Map<string, MDSNode>();
-
+const tree: MDSNode[] = [];
+const processed = new Set<string>();
 const baseURL = new URL('https://www.librarything.com/mds/');
+
 async function fetchMDSPage(pagePath: string) {
 	const url = new URL(pagePath, baseURL);
 	const response = await fetch(url);
@@ -39,37 +41,28 @@ async function fetchMDSPage(pagePath: string) {
 	return entries;
 }
 
-function findOrCreateNode(tree: MDSNode[], number: string, name: string): MDSNode | null {
+function createNode(tree: MDSNode[], number: string, name: string) {
 	const normalizedNumber = number.padEnd(3, '0');
-
-	if (nodeCache.has(normalizedNumber)) {
-		return nodeCache.get(normalizedNumber)!;
-	}
-
 	const node = { name, number: normalizedNumber, children: [] };
 
 	if (number.length === 1) {
 		tree.push(node);
-		nodeCache.set(normalizedNumber, node);
-		console.log(`✓ Added ${normalizedNumber}: ${name}`);
-		return node;
+	} else {
+		const parentKey = number.slice(0, -1).replace(/\.$/, '');
+		const parentNode = nodeCache.get(parentKey);
+
+		if (!parentNode) {
+			return null;
+		}
+
+		parentNode.children.push(node);
 	}
 
-	const [wholePart, decimalPart] = number.split('.');
-	const parentNode = nodeCache.get(!decimalPart || decimalPart[1] ? number.slice(0, -1) : wholePart);
-
-	if (!parentNode) {
-		return null;
-	}
-
-	parentNode.children.push(node);
-	nodeCache.set(normalizedNumber, node);
-	console.log(`✓ Added ${normalizedNumber}: ${name}`);
-
-	return node;
+	nodeCache.set(number, node);
+	console.log(`✓ Added ${number}: ${name}`);
 }
 
-async function processNode(tree: MDSNode[], nodePath: string, processed: Set<string>): Promise<void> {
+async function processNode(tree: MDSNode[], nodePath: string) {
 	if (processed.has(nodePath)) {
 		return;
 	}
@@ -78,43 +71,27 @@ async function processNode(tree: MDSNode[], nodePath: string, processed: Set<str
 
 	try {
 		const entries = await fetchMDSPage(nodePath);
-		const childTasks: Promise<void>[] = [];
-
-		for (const entry of entries) {
-			findOrCreateNode(tree, entry.number, entry.name);
-			childTasks.push(processNode(tree, entry.number, processed));
-		}
-
-		await Promise.all(childTasks);
+		await Promise.all(
+			entries.map(async (entry) => {
+				createNode(tree, entry.number, entry.name);
+				await processNode(tree, entry.number);
+			})
+		);
 	} catch (error) {
 		console.error(`Error processing ${nodePath}:`, error);
 	}
 }
 
-let globalTree: MDSNode[] = [];
-
-async function buildTree(): Promise<MDSNode[]> {
-	const tree: MDSNode[] = [];
-	const processed = new Set<string>();
-
-	globalTree = tree;
-
+async function buildTree() {
 	console.log('Fetching root level…');
 	const rootEntries = await fetchMDSPage('');
 
 	for (const entry of rootEntries) {
-		findOrCreateNode(tree, entry.number, entry.name);
+		createNode(tree, entry.number, entry.name);
 	}
 
 	console.log(`\nProcessing ${tree.length} root nodes\n`);
-
-	const rootTasks = tree.map((rootNode) => {
-		const rootDigit = rootNode.number[0];
-		return processNode(tree, rootDigit, processed);
-	});
-
-	await Promise.all(rootTasks);
-	return tree;
+	await Promise.all(tree.map((node) => processNode(tree, node.number[0])));
 }
 
 function sortTree(nodes: MDSNode[]) {
@@ -135,13 +112,9 @@ if (import.meta.main) {
 
 	process.on('SIGINT', () => {
 		console.log('\n\n⚠️  Interrupted! Saving progress to mds-temp.json…');
-		void saveTree(globalTree, 'mds-temp.json').then(() => {
-			console.log('✓ Progress saved successfully!');
-			process.exit(0);
-		});
+		void saveTree(tree, 'mds-temp.json').then(() => process.exit(0));
 	});
 
-	const tree = await buildTree();
+	await buildTree();
 	await saveTree(tree, 'mds.json');
-	console.log(`Total root nodes: ${tree.length}`);
 }
