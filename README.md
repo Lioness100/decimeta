@@ -1,10 +1,11 @@
 # decimeta
 
-![Demo](https://i.imgur.com/RShz1gn.gif)
+![Demo 1](https://github.com/user-attachments/assets/97dc462b-e367-4048-87ab-6a9f43726eaa)
+![Demo 2](https://github.com/user-attachments/assets/766becb3-d42c-4a6a-998a-12ce9e1899cc)
 
 Evaluates the Dewey Decimal System classification for a given query. Since the DDS
 is closed-source and copyrighted, this project scrapes [data](./mds.json) from the Melvil
-Decimal System, which is the next best things. [(Learn more)](https://www.librarything.com/mds).
+Decimal System, which is the next best thing. [(Learn more)](https://www.librarything.com/mds).
 
 ## How It Works
 
