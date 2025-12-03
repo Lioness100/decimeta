@@ -39,85 +39,29 @@ async function fetchMDSPage(pagePath: string) {
 	return entries;
 }
 
-function findNodeByPath(nodePath: string): MDSNode | null {
-	if (!nodePath) {
-		return null;
-	}
-
-	if (nodeCache.has(nodePath)) {
-		return nodeCache.get(nodePath)!;
-	}
-
-	if (nodePath.includes('.')) {
-		const [wholePart, decimalPart] = nodePath.split('.');
-
-		for (let i = decimalPart.length; i > 0; i--) {
-			const testPath = `${wholePart}.${decimalPart.slice(0, i)}`;
-			if (nodeCache.has(testPath)) {
-				return nodeCache.get(testPath)!;
-			}
-		}
-
-		return findNodeByPath(wholePart);
-	}
-
-	for (let i = nodePath.length; i > 0; i--) {
-		const testPath = nodePath.slice(0, i).padEnd(3, '0');
-		if (nodeCache.has(testPath)) {
-			return nodeCache.get(testPath)!;
-		}
-	}
-
-	return null;
-}
-
 function findOrCreateNode(tree: MDSNode[], number: string, name: string): MDSNode | null {
-	let parentNode: MDSNode | null = null;
-	let normalizedNumber: string;
+	const normalizedNumber = number.padEnd(3, '0');
 
-	if (number.includes('.')) {
-		normalizedNumber = number;
+	if (nodeCache.has(normalizedNumber)) {
+		return nodeCache.get(normalizedNumber)!;
+	}
 
-		if (nodeCache.has(normalizedNumber)) {
-			return nodeCache.get(normalizedNumber)!;
-		}
+	const node = { name, number: normalizedNumber, children: [] };
 
-		const [wholePart, decimalPart] = number.split('.');
-
-		for (let len = decimalPart.length - 1; len > 0 && !parentNode; len--) {
-			const parentNumber = `${wholePart}.${decimalPart.slice(0, len)}`;
-			parentNode = findNodeByPath(parentNumber);
-		}
-
-		parentNode ??= findNodeByPath(wholePart);
-	} else if (number.length === 1) {
-		normalizedNumber = number.padEnd(3, '0');
-
-		if (nodeCache.has(normalizedNumber)) {
-			return nodeCache.get(normalizedNumber)!;
-		}
-
-		const node = { children: [], name, number: normalizedNumber };
+	if (number.length === 1) {
 		tree.push(node);
 		nodeCache.set(normalizedNumber, node);
 		console.log(`✓ Added ${normalizedNumber}: ${name}`);
 		return node;
-	} else {
-		normalizedNumber = number.padEnd(3, '0');
-
-		if (nodeCache.has(normalizedNumber)) {
-			return nodeCache.get(normalizedNumber)!;
-		}
-
-		const parentNumber = number.slice(0, -1);
-		parentNode = findNodeByPath(parentNumber);
 	}
+
+	const [wholePart, decimalPart] = number.split('.');
+	const parentNode = nodeCache.get(!decimalPart || decimalPart[1] ? number.slice(0, -1) : wholePart);
 
 	if (!parentNode) {
 		return null;
 	}
 
-	const node = { children: [], name, number: normalizedNumber };
 	parentNode.children.push(node);
 	nodeCache.set(normalizedNumber, node);
 	console.log(`✓ Added ${normalizedNumber}: ${name}`);
@@ -173,19 +117,17 @@ async function buildTree(): Promise<MDSNode[]> {
 	return tree;
 }
 
-function countNodes(nodes: MDSNode[]): number {
-	let count = nodes.length;
+function sortTree(nodes: MDSNode[]) {
+	nodes.sort((a, b) => a.number.localeCompare(b.number));
 	for (const node of nodes) {
-		count += countNodes(node.children);
+		sortTree(node.children);
 	}
-
-	return count;
 }
 
 async function saveTree(tree: MDSNode[], filename: string) {
-	await Bun.write(filename, JSON.stringify(tree, null, 2));
-	const totalNodes = countNodes(tree);
-	console.log(`\n💾 Saved ${totalNodes} nodes to ${filename}`);
+	sortTree(tree);
+	await Bun.write(filename, JSON.stringify(tree, null, 1));
+	console.log(`\n💾 Saved ${nodeCache.size} nodes to ${filename}`);
 }
 
 if (import.meta.main) {
