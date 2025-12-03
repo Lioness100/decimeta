@@ -17,28 +17,14 @@ async function fetchMDSPage(pagePath: string) {
 	const html = await response.text();
 	const $ = load(html);
 
-	const entries: Omit<MDSNode, 'children'>[] = [];
-
-	$('tr.ddcr:not(.somethingchosen) td:has(> div.word)').each((_, element) => {
+	const entries = $('tr.ddcr:not(.somethingchosen) td:has(> div.word)').map((_, element) => {
 		const $td = $(element);
-		const number = $td.find('.ddcnum').text().trim();
-		const name = $td.find('.word').text().trim();
-
-		if (
-			name &&
-			name !== '>' &&
-			!name.startsWith('-') &&
-			!name.startsWith('–') &&
-			!name.includes('[No Longer') &&
-			!name.toLowerCase().includes('assigned') &&
-			name !== 'Invalid number' &&
-			!name.startsWith('[form')
-		) {
-			entries.push({ name, number });
-		}
+		const number = $td.find('.ddcnum').text();
+		const name = $td.find('.word').text();
+		return { name, number };
 	});
 
-	return entries;
+	return entries.toArray();
 }
 
 function createNode(tree: MDSNode[], number: string, name: string) {
@@ -72,9 +58,9 @@ async function processNode(tree: MDSNode[], nodePath: string) {
 	try {
 		const entries = await fetchMDSPage(nodePath);
 		await Promise.all(
-			entries.map(async (entry) => {
+			entries.map((entry) => {
 				createNode(tree, entry.number, entry.name);
-				await processNode(tree, entry.number);
+				return processNode(tree, entry.number);
 			})
 		);
 	} catch (error) {
