@@ -97,10 +97,10 @@ if (import.meta.main) {
 	console.log('Starting MDS scraping…');
 
 	process.on('SIGINT', () => {
-		console.log('\n\n⚠️  Interrupted! Saving progress to mds-temp.json…');
-		void saveTree(tree, 'mds-temp.json').then(() => process.exit(0));
+		console.log('\n\n⚠️  Interrupted! Saving progress to data/mds-temp.json…');
+		void saveTree(tree, 'data/mds-temp.json').then(() => process.exit(0));
 	});
 
 	await buildTree();
-	await saveTree(tree, 'mds.json');
+	await saveTree(tree, 'data/mds.json');
 }

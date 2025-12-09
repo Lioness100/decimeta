@@ -4,7 +4,7 @@
 ![Demo 2](https://github.com/user-attachments/assets/766becb3-d42c-4a6a-998a-12ce9e1899cc)
 
 Evaluates the Dewey Decimal System classification for a given query. Since the DDS
-is closed-source and copyrighted, this project scrapes [data](./mds.json) from the Melvil
+is closed-source and copyrighted, this project scrapes [data](./data/mds.json) from the Melvil
 Decimal System, which is the next best thing. [(Learn more)](https://www.librarything.com/mds).
 
 ## How It Works
@@ -40,7 +40,7 @@ PINECONE_API_KEY=your_key_here
 ## Usage
 
 Scrape MDS data. This shouldn't be necessary, as scraped data is already
-provided in [mds.json](./mds.json). It's also slow and intensive for
+provided in [mds.json](./data/mds.json). It's also slow and intensive for
 [LibraryThing](https://www.librarything.com/mds), so please use sparingly:
 
 ```bash

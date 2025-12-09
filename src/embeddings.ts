@@ -57,7 +57,7 @@ export function* treeToDocuments(nodes: MDSNode[], parentBreadcrumb = '', level 
 }
 
 if (import.meta.main) {
-	const tree = await Bun.file('mds.json').json();
+	const tree = await Bun.file('data/mds.json').json();
 	await upsertDocuments([...treeToDocuments(tree)]);
 	console.log('✓ Documents upserted successfully');
 	const search = await searchDocuments('Space Exploration');

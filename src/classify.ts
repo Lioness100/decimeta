@@ -1,7 +1,7 @@
 import { OpenAI } from 'openai';
 import type { MDSNode } from './scraper';
 
-const tree: MDSNode[] = await Bun.file('mds.json').json();
+const tree: MDSNode[] = await Bun.file('data/mds.json').json();
 const client = new OpenAI();
 
 export async function queryOpenAI(query: string, options: string[], breadcrumb?: string, parent?: string) {
