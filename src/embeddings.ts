@@ -49,7 +49,7 @@ export function* treeToDocuments(nodes: MDSNode[], parentBreadcrumb = '', level 
 	for (const node of nodes) {
 		yield nodeToDocument(node, parentBreadcrumb, level);
 
-		if (node.children.length > 0) {
+		if (node.children) {
 			const currentBreadcrumb = parentBreadcrumb ? `${parentBreadcrumb} > ${node.name}` : node.name;
 			yield* treeToDocuments(node.children, currentBreadcrumb, level + 1);
 		}

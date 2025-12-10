@@ -36,7 +36,7 @@ export async function* classify(
 		throw new Error(`No matching node found for response: ${number}`);
 	}
 
-	const isFinished = isParent || matchedNode.children.length === 0;
+	const isFinished = isParent || !matchedNode.children;
 	yield { breadcrumb, name: matchedNode.name, number: matchedNode.number, finished: isFinished };
 
 	if (isFinished) {

@@ -1,7 +1,7 @@
 import { load } from 'cheerio';
 
 export interface MDSNode {
-	children: MDSNode[];
+	children?: MDSNode[];
 	name: string;
 	number: string;
 }
@@ -29,7 +29,7 @@ async function fetchMDSPage(pagePath: string) {
 
 function createNode(tree: MDSNode[], number: string, name: string) {
 	const normalizedNumber = number.padEnd(3, '0');
-	const node = { name, number: normalizedNumber, children: [] };
+	const node = { name, number: normalizedNumber };
 
 	if (number.length === 1) {
 		tree.push(node);
@@ -41,7 +41,7 @@ function createNode(tree: MDSNode[], number: string, name: string) {
 			return null;
 		}
 
-		parentNode.children.push(node);
+		(parentNode.children ??= []).push(node);
 	}
 
 	nodeCache.set(number, node);
@@ -83,7 +83,9 @@ async function buildTree() {
 function sortTree(nodes: MDSNode[]) {
 	nodes.sort((a, b) => a.number.localeCompare(b.number));
 	for (const node of nodes) {
-		sortTree(node.children);
+		if (node.children) {
+			sortTree(node.children);
+		}
 	}
 }
 
